@@ -7,11 +7,6 @@
   transition: all 0.8s ease-out;
 }
 
-.projects.animate {
-  opacity: 1;
-  transform: translateY(0);
-}
-
 .projects h2 {
   text-align: center;
   font-size: 2rem;

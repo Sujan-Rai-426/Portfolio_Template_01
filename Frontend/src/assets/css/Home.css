@@ -39,11 +39,6 @@ body.dark-mode {
     transition: all 0.3s ease;
 }
 
-/* Smooth color transition */
-body.dark-mode * {
-    transition: color 0.3s ease, background-color 0.3s ease;
-}
-
 /* Initial state for sections (works for both light & dark mode) */
 section {
   opacity: 0;
