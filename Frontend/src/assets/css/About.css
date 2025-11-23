@@ -1,0 +1,46 @@
+.about {
+  padding: 4rem 2rem;
+  max-width: 900px;
+  margin: auto;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 0.8s ease-out;
+  background: transparent;
+  border-radius: 16px;
+  backdrop-filter: blur(4px);
+}
+
+.about.animate {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.about h2 {
+  font-size: 2.4rem;
+  margin-bottom: 1.2rem;
+  font-weight: 700;
+}
+
+.about p {
+  font-size: 1.15rem;
+  line-height: 1.9;
+  color: #444;
+  max-width: 750px;
+  margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+  .about {
+    padding: 3rem 1.5rem;
+  }
+
+  .about h2 {
+    font-size: 1.8rem;
+  }
+
+  .about p {
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+}

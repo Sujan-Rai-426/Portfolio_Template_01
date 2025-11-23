@@ -1,0 +1,42 @@
+*{
+  padding: 0;
+  margin: 0;
+}
+body{
+  padding: 5rem 0;
+}
+
+/* Floating Dark/Light Mode Button */
+.body-mode-toggle {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 1000;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: none;
+    background-color: #0077ff;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    transition: all 0.3s ease;
+}
+
+.body-mode-toggle:hover {
+    transform: scale(1.1);
+    background-color: #005fcc;
+}
+
+/* Dark Mode Styles for body */
+body.dark-mode {
+    background-color: #111;
+    color: #eee;
+    transition: all 0.3s ease;
+}
+
+/* Optional: Smooth color transition for all elements */
+body.dark-mode * {
+    transition: color 0.3s ease, background-color 0.3s ease;
+}
