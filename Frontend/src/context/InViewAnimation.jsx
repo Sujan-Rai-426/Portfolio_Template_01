@@ -1,4 +1,5 @@
-import React, { createContext, useContext, useRef, useEffect, useState } from "react";
+// context/InViewAnimation.js
+import React, { createContext, useContext, useEffect, useRef, useState } from "react";
 
 const InViewAnimationContext = createContext();
 
@@ -7,27 +8,28 @@ export const InViewAnimationProvider = ({ children }) => {
   const [inViewElements, setInViewElements] = useState({});
 
   useEffect(() => {
-    // Delay observer until DOM fully renders (fixes Netlify invisible issue)
-    const timeout = setTimeout(() => {
-      observer.current = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            const id = entry.target.id;
-            if (entry.isIntersecting) {
-              setInViewElements((prev) => ({ ...prev, [id]: true }));
-            }
-          });
-        },
-        { threshold: 0.1 }
-      );
-    }, 300); // short delay fixes SSR + static hosting glitch
+    if (typeof window === "undefined") return;
 
-    return () => clearTimeout(timeout);
+    observer.current = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const id = entry.target.id;
+          if (entry.isIntersecting) {
+            setInViewElements((prev) => ({ ...prev, [id]: true }));
+          } else {
+            setInViewElements((prev) => ({ ...prev, [id]: false }));
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
+
+    return () => observer.current?.disconnect();
   }, []);
 
   const register = (ref, id) => {
-    if (!ref?.current || !observer.current) return;
-    observer.current.observe(ref.current);
+    if (!ref?.current) return;
+    if (observer.current) observer.current.observe(ref.current);
   };
 
   return (
@@ -41,9 +43,15 @@ export const useInViewAnimation = (id, ref) => {
   const { inViewElements, register } = useContext(InViewAnimationContext);
 
   useEffect(() => {
-    register(ref, id);
-  }, [ref, id]);
+    const element = ref?.current;
+    if (!element) return;
 
-  // default = true → section always visible until observer fires
-  return inViewElements[id] ?? true;
+    // Retry if element not in DOM yet
+    const timeout = setTimeout(() => register(ref, id), 100);
+    register(ref, id);
+
+    return () => clearTimeout(timeout);
+  }, [ref, id, register]);
+
+  return inViewElements[id] ?? false;
 };
