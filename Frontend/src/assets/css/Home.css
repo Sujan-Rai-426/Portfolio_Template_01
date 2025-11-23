@@ -45,15 +45,24 @@ body.dark-mode * {
     transition: color 0.3s ease, background-color 0.3s ease;
 }
 
-/* Base section styles */
-section {
-  opacity: 0;
-  transform: translateY(50px);
-  transition: all 0.6s ease-out;
-}
+/* Home.css or global styles */
 
-/* Animate when visible */
+/* Common animation */
 .animate {
   opacity: 1 !important;
   transform: translateY(0) !important;
+  transition: all 0.8s ease-out;
+}
+
+/* Initial state for sections */
+section {
+  opacity: 0;
+  transform: translateY(50px);
+}
+
+/* Dark mode support */
+body.dark-mode section {
+  /* Keep same animation properties */
+  opacity: 0;
+  transform: translateY(50px);
 }

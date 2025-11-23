@@ -1,3 +1,4 @@
+// context/InViewAnimation.js
 import React, { createContext, useContext, useEffect, useRef, useState } from "react";
 
 const InViewAnimationContext = createContext();
@@ -15,6 +16,8 @@ export const InViewAnimationProvider = ({ children }) => {
           const id = entry.target.id;
           if (entry.isIntersecting) {
             setInViewElements((prev) => ({ ...prev, [id]: true }));
+          } else {
+            setInViewElements((prev) => ({ ...prev, [id]: false }));
           }
         });
       },
@@ -26,11 +29,7 @@ export const InViewAnimationProvider = ({ children }) => {
 
   const register = (ref, id) => {
     if (!ref?.current) return;
-
-    // Force re-observe after a short delay to handle dark/light repaint
-    setTimeout(() => {
-      if (ref.current && observer.current) observer.current.observe(ref.current);
-    }, 50);
+    if (observer.current) observer.current.observe(ref.current);
   };
 
   return (
@@ -47,7 +46,11 @@ export const useInViewAnimation = (id, ref) => {
     const element = ref?.current;
     if (!element) return;
 
+    // Retry if element not in DOM yet
+    const timeout = setTimeout(() => register(ref, id), 100);
     register(ref, id);
+
+    return () => clearTimeout(timeout);
   }, [ref, id, register]);
 
   return inViewElements[id] ?? false;
