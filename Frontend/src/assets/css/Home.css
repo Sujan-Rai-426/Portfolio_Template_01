@@ -1,3 +1,4 @@
+/* Reset & body */
 *{
   padding: 0;
   margin: 0;
@@ -8,7 +9,6 @@ body {
 main {
   padding-top: 5rem;
 }
-
 
 /* Floating Dark/Light Mode Button */
 .body-mode-toggle {
@@ -27,42 +27,51 @@ main {
     box-shadow: 0 4px 15px rgba(0,0,0,0.3);
     transition: all 0.3s ease;
 }
-
 .body-mode-toggle:hover {
     transform: scale(1.1);
     background-color: #005fcc;
 }
 
-/* Dark Mode Styles for body */
+/* Dark Mode Styles */
 body.dark-mode {
     background-color: #111;
     color: #eee;
     transition: all 0.3s ease;
 }
 
-/* Optional: Smooth color transition for all elements */
+/* Smooth color transition */
 body.dark-mode * {
     transition: color 0.3s ease, background-color 0.3s ease;
 }
 
-/* Home.css or global styles */
-
-/* Common animation */
-.animate {
-  opacity: 1 !important;
-  transform: translateY(0) !important;
-  transition: all 0.8s ease-out;
-}
-
-/* Initial state for sections */
+/* Initial state for sections (works for both light & dark mode) */
 section {
   opacity: 0;
   transform: translateY(50px);
+  transition: all 0.8s ease-out;
 }
 
-/* Dark mode support */
-body.dark-mode section {
-  /* Keep same animation properties */
+/* Animate class (applied when section enters viewport) */
+.animate {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+
+/* Optional: Section text animation for dark mode */
+body.dark-mode section h2,
+body.dark-mode section p,
+body.dark-mode section a {
+  color: #eee; /* ensure visibility in dark mode */
+  transition: all 0.8s ease-out;
+}
+
+/* Hero image animation example */
+.hero-image img {
+  transition: transform 0.8s ease-out, opacity 0.8s ease-out;
   opacity: 0;
-  transform: translateY(50px);
+  transform: translateY(30px);
+}
+.hero.animate .hero-image img {
+  opacity: 1;
+  transform: translateY(0);
 }
