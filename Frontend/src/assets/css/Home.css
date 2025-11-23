@@ -44,14 +44,15 @@ body.dark-mode {
 body.dark-mode * {
     transition: color 0.3s ease, background-color 0.3s ease;
 }
-/* default visible */
+
+/* Base section styles */
 section {
-  opacity: 1 !important;
-  transform: none !important;
-  transition: all 0.6s ease !important;
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 0.6s ease-out;
 }
 
-/* only animate when in view */
+/* Animate when visible */
 .animate {
   opacity: 1 !important;
   transform: translateY(0) !important;
