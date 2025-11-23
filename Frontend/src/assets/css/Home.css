@@ -2,9 +2,13 @@
   padding: 0;
   margin: 0;
 }
-body{
-  padding: 5rem 0;
+body {
+  padding: 0;
 }
+main {
+  padding-top: 5rem;
+}
+
 
 /* Floating Dark/Light Mode Button */
 .body-mode-toggle {
@@ -39,4 +43,16 @@ body.dark-mode {
 /* Optional: Smooth color transition for all elements */
 body.dark-mode * {
     transition: color 0.3s ease, background-color 0.3s ease;
+}
+/* default visible */
+section {
+  opacity: 1 !important;
+  transform: none !important;
+  transition: all 0.6s ease !important;
+}
+
+/* only animate when in view */
+.animate {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
 }

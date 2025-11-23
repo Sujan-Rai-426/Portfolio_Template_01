@@ -2,28 +2,31 @@ import React, { createContext, useContext, useRef, useEffect, useState } from "r
 
 const InViewAnimationContext = createContext();
 
-export const InViewAnimationProvider = ({ children, options }) => {
+export const InViewAnimationProvider = ({ children }) => {
   const observer = useRef(null);
   const [inViewElements, setInViewElements] = useState({});
 
   useEffect(() => {
-    observer.current = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          const id = entry.target.id;
-          if (entry.isIntersecting) {
-            setInViewElements((prev) => ({ ...prev, [id]: true }));
-          } else {
-            setInViewElements((prev) => ({ ...prev, [id]: false }));
-          }
-        });
-      },
-      { threshold: 0.2, ...options }
-    );
-  }, [options]);
+    // Delay observer until DOM fully renders (fixes Netlify invisible issue)
+    const timeout = setTimeout(() => {
+      observer.current = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            const id = entry.target.id;
+            if (entry.isIntersecting) {
+              setInViewElements((prev) => ({ ...prev, [id]: true }));
+            }
+          });
+        },
+        { threshold: 0.1 }
+      );
+    }, 300); // short delay fixes SSR + static hosting glitch
+
+    return () => clearTimeout(timeout);
+  }, []);
 
   const register = (ref, id) => {
-    if (!ref || !ref.current || !observer.current) return;
+    if (!ref?.current || !observer.current) return;
     observer.current.observe(ref.current);
   };
 
@@ -39,7 +42,8 @@ export const useInViewAnimation = (id, ref) => {
 
   useEffect(() => {
     register(ref, id);
-  }, [ref, id, register]);
+  }, [ref, id]);
 
-  return !!inViewElements[id];
+  // default = true → section always visible until observer fires
+  return inViewElements[id] ?? true;
 };
