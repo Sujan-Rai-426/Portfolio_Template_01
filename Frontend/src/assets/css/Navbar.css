@@ -93,8 +93,15 @@
   transform: rotate(-45deg) translate(5px, -5px);
 }
 
+
+@media (max-width: 1024px) {
+  .navbar-logo { font-size: 1.1rem;}
+}
+
+
 /* Responsive */
 @media (max-width: 768px) {
+  .navbar-logo {font-size: 1rem;}
   .nav-links {
     position: fixed;
     top: 70px;
