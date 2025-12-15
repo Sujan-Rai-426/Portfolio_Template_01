@@ -46,6 +46,7 @@
 /* Nav Links */
 .nav-links {
   display: flex;
+  margin: 0.3rem 0;
   gap: 1.8rem;
   list-style: none;
 }
@@ -95,7 +96,7 @@
 
 
 @media (max-width: 1024px) {
-  .nav-links {gap: 1.3rem;}
+  .nav-links {gap: 1rem; margin: 0;}
   .navbar-logo { font-size: 1.1rem;}
 }
 
