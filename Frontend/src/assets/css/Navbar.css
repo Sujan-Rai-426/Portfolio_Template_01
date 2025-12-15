@@ -95,6 +95,7 @@
 
 
 @media (max-width: 1024px) {
+  .nav-links {gap: 1.3rem;}
   .navbar-logo { font-size: 1.1rem;}
 }
 
